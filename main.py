@@ -1,10 +1,8 @@
-import os 
+import os
 import threading
-import requests, random
+import requests
+import random
 from dhooks import Webhook
-import ctypes
-ctypes.windll.kernel32.SetConsoleTitleW("Aleks Group Finder")
-
 
 def groupfinder():
     try:
@@ -15,7 +13,7 @@ def groupfinder():
             if re.status_code != 429:
                 if 'errors' not in re.json():
                     if 'isLocked' not in re.text and 'owner' in re.text:
-                        if re.json()['publicEntryAllowed'] == True and re.json()['owner'] == None:
+                        if re.json()['publicEntryAllowed'] and re.json()['owner'] is None:
                             hook.send(f'Hit: https://www.roblox.com/groups/group.aspx?gid={id}')
                             print(f"[+] Hit: {id}")
                         else:
@@ -26,13 +24,10 @@ def groupfinder():
                 print(f"[-] Group API Rate Limited")
         else:
             print(f"[-] Group Already Owned: {id}")
-    except:
-        pass
-
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 print("""
-
-
 ____ _    ____ _  _ ____    ____ ____ ____ _  _ ___  
 |__| |    |___ |_/  [__     | __ |__/ |  | |  | |__] 
 |  | |___ |___ | \_ ___]    |__] |  \ |__| |__| |    
@@ -40,12 +35,12 @@ ____ _    ____ _  _ ____    ____ ____ ____ _  _ ___
 ____ _ _  _ ___  ____ ____ 
 |___ | |\ | |  \ |___ |__/ 
 |    | | \| |__/ |___ |  \ 
-                           
 """)
 
-#your webhook
-hook = "https://discord.com/api/webhooks/1242294309638897664/0kiwNLgueINMUDtLGfvRaD4lWbUrVTipiN4vFpSmscJoTheQDASWCo-7B-ba4ZMQBMv8"
-#number of threads
+# Your webhook
+hook = Webhook("https://discord.com/api/webhooks/1242294309638897664/0kiwNLgueINMUDtLGfvRaD4lWbUrVTipiN4vFpSmscJoTheQDASWCo-7B-ba4ZMQBMv8")
+
+# Number of threads
 threads = 150
 
 while True:
